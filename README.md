@@ -1,6 +1,6 @@
 # OTTableView
 
-SwiftUI implementation of `NSTableView` with features that SwiftUI's `Table` lacks:
+SwiftUI implementation of [`NSTableView`](https://developer.apple.com/documentation/appkit/nstableview) with features that SwiftUI's [`Table`](https://developer.apple.com/documentation/swiftui/table) lacks:
 
 - Allows column reordering via drag-and-drop
 - Allows columns to be hidden using a simple view modifier
@@ -11,7 +11,7 @@ Simple example:
 var body: some View {
     @State var contents: [TableItem] = [ ... ]
     @State var selection: Set<TableItem.ID> = []
-    @State var isKindShown: Bool = true
+    @State var isKindColumnShown: Bool = true
     
     OTTable(
         contents: $contents,
@@ -27,7 +27,7 @@ var body: some View {
             OTTableColumn(title: "Kind (read-only)") { 
                 $0.kind
             }
-            .visible(isKindShown)
+            .visible(isKindColumnShown)
             .width(min: 50, ideal: 100, max: 150),
 
             OTTableColumn(title: "Comments") { 
