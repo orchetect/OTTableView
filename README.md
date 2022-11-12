@@ -17,18 +17,22 @@ var body: some View {
         contents: $contents,
         selection: $selection,
         columns: [
-            OTTableColumn(title: "Name") { $0.name }
-            setValue: { row, newValue in
+            OTTableColumn(title: "Name") { 
+                $0.name
+            } set: { row, newValue in
                 tableContents[row].name = newValue as? String ?? ""
             }
             .width(150),
 
-            OTTableColumn(title: "Kind (read-only)") { $0.kind }
+            OTTableColumn(title: "Kind (read-only)") { 
+                $0.kind
+            }
             .visible(isKindShown)
             .width(min: 50, ideal: 100, max: 150),
 
-            OTTableColumn(title: "Comments") { $0.comments }
-            setValue: { row, newValue in
+            OTTableColumn(title: "Comments") { 
+                $0.comments
+            } set: { row, newValue in
                 tableContents[row].comments = newValue as? String ?? ""
             }
             .width(min: 150, ideal: 200, max: 1000)

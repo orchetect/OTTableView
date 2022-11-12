@@ -37,8 +37,9 @@ struct ContentView: View {
                 contents: $tableContents,
                 selection: $selection,
                 columns: [
-                    OTTableColumn(title: "Name") { $0.name }
-                    setValue: { row, newValue in
+                    OTTableColumn(title: "Name") {
+                        $0.name
+                    } set: { row, newValue in
                         guard let newValue = newValue as? String,
                               tableContents.indices.contains(row)
                         else { return }
@@ -46,12 +47,15 @@ struct ContentView: View {
                     }
                     .width(150),
                     
-                    OTTableColumn(title: "Kind (read-only)") { $0.kind }
+                    OTTableColumn(title: "Kind (read-only)") {
+                        $0.kind
+                    }
                     .visible(isKindShown)
                     .width(min: 50, ideal: 100, max: 150),
                     
-                    OTTableColumn(title: "Comments") { $0.comments }
-                    setValue: { row, newValue in
+                    OTTableColumn(title: "Comments") {
+                        $0.comments
+                    } set: { row, newValue in
                         guard let newValue = newValue as? String,
                               tableContents.indices.contains(row)
                         else { return }

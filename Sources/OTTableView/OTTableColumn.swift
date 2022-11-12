@@ -18,8 +18,8 @@ where RowValue: Hashable,
     var setValue: ((_ row: Int, _ newValue: Any?) -> ())?
     
     public init(title: String,
-                _ getValue: @escaping (_ rowItem: RowValue) -> Any?,
-                setValue: ((_ row: Int, _ newValue: Any?) -> ())? = nil
+                get getValue: @escaping (_ rowItem: RowValue) -> Any?,
+                set setValue: ((_ row: Int, _ newValue: Any?) -> ())? = nil
     ) {
         self.title = title
         self.getValue = getValue
