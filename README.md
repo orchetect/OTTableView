@@ -43,7 +43,7 @@ var body: some View {
 
 ## Getting Started
 
-1. Add the package to your application.
+1. Add the package to your application as a dependency using Swift Package Manager
 2. `import OTTableView`
 3. Profit
 
