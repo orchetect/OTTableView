@@ -53,4 +53,5 @@ var body: some View {
 - [ ] Allow programmatic read/write of `OTTable` column order (via SwiftUI Binding)
 - [ ] Allow cell editable toggle by way of new `.editable(Bool)` modifier on `OTTableColumn`. (For now, any `OTTableColumn` with a setter closure is editable and any without the closure (nil) are read-only.)
 - [ ] Allow table sorting (may require some custom abstractions)
+- [ ] Add ergonomics, ie: contextual row selection after appending, inserting, or deleting rows
 - [ ] Performance optimizations
