@@ -57,6 +57,7 @@ where RowValue: Hashable,
                 break
             }
             col.isHidden = !column.isVisible
+            col.isEditable = column.setValue != nil
             
             tv.addTableColumn(col)
         }
@@ -66,6 +67,9 @@ where RowValue: Hashable,
         
         // layout
         tv.translatesAutoresizingMaskIntoConstraints = false
+        
+        // style
+        tv.usesAlternatingRowBackgroundColors = true
         
         // scrollview
         let sv = OTTableScrollView<RowValue>(tableView: tv)

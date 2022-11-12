@@ -13,11 +13,17 @@ where RowValue: Hashable,
     public var title: String
     public var isVisible: Bool = true
     internal var width: OTTableColumnWidth = .default
-    var cellValue: (_ rowItem: RowValue) -> Any?
     
-    public init(title: String, _ cellValue: @escaping (_ rowItem: RowValue) -> Any?) {
+    var getValue: (_ rowItem: RowValue) -> Any?
+    var setValue: ((_ row: Int, _ newValue: Any?) -> ())?
+    
+    public init(title: String,
+                _ getValue: @escaping (_ rowItem: RowValue) -> Any?,
+                setValue: ((_ row: Int, _ newValue: Any?) -> ())? = nil
+    ) {
         self.title = title
-        self.cellValue = cellValue
+        self.getValue = getValue
+        self.setValue = setValue
     }
 }
 

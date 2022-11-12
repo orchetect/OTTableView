@@ -14,7 +14,7 @@ struct ContentView: View {
     @State var isKindShown: Bool = true
     
     var body: some View {
-        VStack {
+        VStack(spacing: 15) {
             HStack {
                 Button("Add") {
                     addItem()
@@ -28,6 +28,8 @@ struct ContentView: View {
                     removeSelected()
                 }.disabled(selection.isEmpty)
                 
+                Spacer()
+                
                 Toggle("Show Kind", isOn: $isKindShown)
             }
             
@@ -35,19 +37,25 @@ struct ContentView: View {
                 contents: $tableContents,
                 selection: $selection,
                 columns: [
-                    OTTableColumn(title: "Name") { row in
-                        row.name
+                    OTTableColumn(title: "Name") { $0.name }
+                    setValue: { row, newValue in
+                        guard let newValue = newValue as? String,
+                              tableContents.indices.contains(row)
+                        else { return }
+                        tableContents[row].name = newValue
                     }
                     .width(150),
                     
-                    OTTableColumn(title: "Kind") { row in
-                        row.kind
-                    }
+                    OTTableColumn(title: "Kind (read-only)") { $0.kind }
                     .visible(isKindShown)
                     .width(min: 50, ideal: 100, max: 150),
                     
-                    OTTableColumn(title: "Comments") { row in
-                        row.comments
+                    OTTableColumn(title: "Comments") { $0.comments }
+                    setValue: { row, newValue in
+                        guard let newValue = newValue as? String,
+                              tableContents.indices.contains(row)
+                        else { return }
+                        tableContents[row].comments = newValue
                     }
                     .width(min: 150, ideal: 200, max: 1000)
                 ]

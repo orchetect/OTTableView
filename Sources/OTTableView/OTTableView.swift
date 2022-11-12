@@ -50,17 +50,21 @@ where RowValue: Hashable,
         guard let idx = Int(tableColumn.identifier.rawValue) else { return nil }
         guard columns.indices.contains(idx) else { return nil }
         
-        let cellValue = columns[idx].cellValue(contents[row])
+        let cellValue = columns[idx].getValue(contents[row])
         
         return cellValue
     }
     
-//    public func tableView(
-//        _ tableView: NSTableView,
-//        setObjectValue object: Any?,
-//        for tableColumn: NSTableColumn?,
-//        row: Int
-//    ) {
-//        // TODO: finish
-//    }
+    public func tableView(
+        _ tableView: NSTableView,
+        setObjectValue object: Any?,
+        for tableColumn: NSTableColumn?,
+        row: Int
+    ) {
+        guard let tableColumn else { return }
+        guard let idx = Int(tableColumn.identifier.rawValue) else { return }
+        guard columns.indices.contains(idx) else { return }
+        
+        columns[idx].setValue?(row, object)
+    }
 }
