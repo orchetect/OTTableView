@@ -10,7 +10,8 @@ let package = Package(
     products: [
         .library(
             name: "OTTableView",
-            targets: ["OTTableView"]),
+            targets: ["OTTableView"]
+        )
     ],
     dependencies: [
         // none
@@ -18,9 +19,11 @@ let package = Package(
     targets: [
         .target(
             name: "OTTableView",
-            dependencies: []),
+            dependencies: []
+        ),
         .testTarget(
             name: "OTTableViewTests",
-            dependencies: ["OTTableView"]),
+            dependencies: ["OTTableView"]
+        )
     ]
 )

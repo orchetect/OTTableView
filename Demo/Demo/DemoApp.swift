@@ -1,8 +1,7 @@
 //
 //  DemoApp.swift
-//  Demo
-//
-//  Created by Steffan Andrews on 2022-11-11.
+//  OTTableView • https://github.com/orchetect/OTTableView
+//  © 2022 Steffan Andrews • Licensed under MIT License
 //
 
 import SwiftUI

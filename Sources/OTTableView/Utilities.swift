@@ -1,6 +1,7 @@
 //
-//  OTTableColumn.swift
-//  OTTableView
+//  Utilities.swift
+//  OTTableView • https://github.com/orchetect/OTTableView
+//  © 2022 Steffan Andrews • Licensed under MIT License
 //
 
 import SwiftUI

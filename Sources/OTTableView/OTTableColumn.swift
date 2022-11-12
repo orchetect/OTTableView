@@ -1,25 +1,26 @@
 //
 //  OTTableColumn.swift
-//  OTTableView
+//  OTTableView • https://github.com/orchetect/OTTableView
+//  © 2022 Steffan Andrews • Licensed under MIT License
 //
 
 import AppKit
 import SwiftUI
 
 public struct OTTableColumn<RowValue>
-where RowValue: Hashable,
-      RowValue: Identifiable
+    where RowValue: Hashable, RowValue: Identifiable
 {
     public var title: String
     public var isVisible: Bool = true
     internal var width: OTTableColumnWidth = .default
     
     var getValue: (_ rowItem: RowValue) -> Any?
-    var setValue: ((_ row: Int, _ newValue: Any?) -> ())?
+    var setValue: ((_ row: Int, _ newValue: Any?) -> Void)?
     
-    public init(title: String,
-                get getValue: @escaping (_ rowItem: RowValue) -> Any?,
-                set setValue: ((_ row: Int, _ newValue: Any?) -> ())? = nil
+    public init(
+        title: String,
+        get getValue: @escaping (_ rowItem: RowValue) -> Any?,
+        set setValue: ((_ row: Int, _ newValue: Any?) -> Void)? = nil
     ) {
         self.title = title
         self.getValue = getValue

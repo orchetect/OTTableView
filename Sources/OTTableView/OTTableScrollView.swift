@@ -1,14 +1,14 @@
 //
 //  OTTableScrollView.swift
-//  OTTableView
+//  OTTableView • https://github.com/orchetect/OTTableView
+//  © 2022 Steffan Andrews • Licensed under MIT License
 //
 
 import AppKit
 import SwiftUI
 
 public class OTTableScrollView<RowValue>: NSScrollView
-where RowValue: Hashable,
-      RowValue: Identifiable
+    where RowValue: Hashable, RowValue: Identifiable
 {
     public typealias NSViewType = OTTableView<RowValue>
     

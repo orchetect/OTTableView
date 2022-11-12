@@ -1,8 +1,7 @@
 //
 //  ContentView.swift
-//  Demo
-//
-//  Created by Steffan Andrews on 2022-11-11.
+//  OTTableView • https://github.com/orchetect/OTTableView
+//  © 2022 Steffan Andrews • Licensed under MIT License
 //
 
 import SwiftUI
@@ -11,7 +10,7 @@ import OTTableView
 struct ContentView: View {
     @State var tableContents: [TableItem] = .mockItems()
     @State var selection: Set<TableItem.ID> = []
-    @State var isKindShown: Bool = true
+    @State var isKindColumnShown: Bool = true
     
     var body: some View {
         VStack(spacing: 15) {
@@ -30,7 +29,7 @@ struct ContentView: View {
                 
                 Spacer()
                 
-                Toggle("Show Kind", isOn: $isKindShown)
+                Toggle("Show Kind", isOn: $isKindColumnShown)
             }
             
             OTTable(
@@ -50,7 +49,7 @@ struct ContentView: View {
                     OTTableColumn(title: "Kind (read-only)") {
                         $0.kind
                     }
-                    .visible(isKindShown)
+                    .visible(isKindColumnShown)
                     .width(min: 50, ideal: 100, max: 150),
                     
                     OTTableColumn(title: "Comments") {
@@ -86,7 +85,7 @@ struct ContentView: View {
         let idx = selection.isEmpty
             ? defaultIdx
             : tableContents.firstIndex(where: { selection.contains($0.id) })
-        ?? defaultIdx
+                ?? defaultIdx
         
         tableContents.insert(item, at: idx)
     }

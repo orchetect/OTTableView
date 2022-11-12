@@ -1,14 +1,14 @@
 //
 //  OTTableView.swift
-//  OTTableView
+//  OTTableView • https://github.com/orchetect/OTTableView
+//  © 2022 Steffan Andrews • Licensed under MIT License
 //
 
 import AppKit
 import SwiftUI
 
 public class OTTableView<RowValue>: NSTableView, NSTableViewDelegate, NSTableViewDataSource
-where RowValue: Hashable,
-      RowValue: Identifiable
+    where RowValue: Hashable, RowValue: Identifiable
 {
     internal var contents: [RowValue] = []
     internal var selection: Set<RowValue.ID> = []

@@ -1,8 +1,7 @@
 //
 //  Mock Data.swift
-//  Demo
-//
-//  Created by Steffan Andrews on 2022-11-11.
+//  OTTableView • https://github.com/orchetect/OTTableView
+//  © 2022 Steffan Andrews • Licensed under MIT License
 //
 
 import Foundation
@@ -23,7 +22,11 @@ extension TableItem {
 extension [TableItem] {
     static func mockItems() -> Self {
         (0 ... 20).map {
-            .init(name: "Item \($0)", kind: "Some kind", comments: "\(Int.random(in: 0...Int.max))")
+            TableItem(
+                name: "Item \($0)",
+                kind: "Some kind",
+                comments: "\(Int.random(in: 0 ... Int.max))"
+            )
         }
     }
 }

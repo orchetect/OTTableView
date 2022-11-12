@@ -1,14 +1,14 @@
 //
 //  OTTable.swift
-//  OTTableView
+//  OTTableView • https://github.com/orchetect/OTTableView
+//  © 2022 Steffan Andrews • Licensed under MIT License
 //
 
 import AppKit
 import SwiftUI
 
 public struct OTTable<RowValue>: NSViewRepresentable
-where RowValue: Hashable,
-      RowValue: Identifiable
+    where RowValue: Hashable, RowValue: Identifiable
 {
     // MARK: Public properties
     
@@ -18,12 +18,14 @@ where RowValue: Hashable,
     
     // MARK: Init
     
-    public init(contents: Binding<Array<RowValue>>,
-                selection: Binding<Set<RowValue.ID>>,
-                columns: [OTTableColumn<RowValue>]) {
-        self._contents = contents
-        self._selection = selection
-        self._columns = .constant(columns)
+    public init(
+        contents: Binding<[RowValue]>,
+        selection: Binding<Set<RowValue.ID>>,
+        columns: [OTTableColumn<RowValue>]
+    ) {
+        _contents = contents
+        _selection = selection
+        _columns = .constant(columns)
     }
     
     // MARK: NSViewRepresentable overrides
@@ -104,7 +106,10 @@ where RowValue: Hashable,
         
         // restore selection from state
         DispatchQueue.main.async {
-            tableView.selectRowIndexes(contents.indices(for: selection), byExtendingSelection: false)
+            tableView.selectRowIndexes(
+                contents.indices(for: selection),
+                byExtendingSelection: false
+            )
         }
     }
     
@@ -118,8 +123,8 @@ where RowValue: Hashable,
     // MARK: Coordinator
     
     public class Coordinator<RowValue>: NSObject, NSTableViewDelegate
-    where RowValue: Hashable,
-          RowValue: Identifiable
+        where RowValue: Hashable,
+        RowValue: Identifiable
     {
         var parent: OTTable
         
