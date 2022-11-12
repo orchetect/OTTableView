@@ -8,12 +8,11 @@ import SwiftUI
 
 public struct OTTableColumn {
     public var title: String
-    @Binding public var isVisible: Bool
+    public var isVisible: Bool = true
     internal var width: OTTableColumnWidth = .default
     
-    public init(name: String, isVisible: Binding<Bool> = .constant(true)) {
-        self.title = name
-        self._isVisible = isVisible
+    public init(title: String) {
+        self.title = title
     }
 }
 
@@ -39,6 +38,12 @@ extension OTTableColumn {
     public func width(min: CGFloat?, ideal: CGFloat?, max: CGFloat?) -> Self {
         var copy = self
         copy.width = .limits(min: min, ideal: ideal, max: max)
+        return copy
+    }
+    
+    public func visible(_ state: Bool) -> Self {
+        var copy = self
+        copy.isVisible = state
         return copy
     }
 }

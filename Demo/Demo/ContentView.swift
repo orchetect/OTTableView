@@ -11,6 +11,7 @@ import OTTableView
 struct ContentView: View {
     @State var tableContents: [TableItem] = .mockItems()
     @State var selection: Set<TableItem.ID> = []
+    @State var isKindShown: Bool = true
     
     var body: some View {
         VStack {
@@ -26,17 +27,20 @@ struct ContentView: View {
                 Button("Delete") {
                     removeSelected()
                 }.disabled(selection.isEmpty)
+                
+                Toggle("Show Kind", isOn: $isKindShown)
             }
             
             OTTable(
                 contents: $tableContents,
                 selection: $selection,
                 columns: [
-                    OTTableColumn(name: "Name")
+                    OTTableColumn(title: "Name")
                         .width(150),
-                    OTTableColumn(name: "Kind")
+                    OTTableColumn(title: "Kind")
+                        .visible(isKindShown)
                         .width(min: 50, ideal: 100, max: 150),
-                    OTTableColumn(name: "Comments")
+                    OTTableColumn(title: "Comments")
                         .width(min: 150, ideal: 200, max: 1000),
                 ]
             )

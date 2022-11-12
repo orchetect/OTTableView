@@ -14,7 +14,7 @@ where RowValue: Hashable,
     
     @Binding public var contents: [RowValue]
     @Binding public var selection: Set<RowValue.ID>
-    @State public var columns: [OTTableColumn]
+    @Binding public var columns: [OTTableColumn]
     
     // MARK: Init
     
@@ -23,7 +23,7 @@ where RowValue: Hashable,
                 columns: [OTTableColumn]) {
         self._contents = contents
         self._selection = selection
-        self._columns = State(initialValue: columns)
+        self._columns = .constant(columns)
     }
     
     // MARK: NSViewRepresentable overrides
@@ -38,9 +38,11 @@ where RowValue: Hashable,
         tv.delegate = tv
         
         // column setup
-        for column in columns {
+        for idx in columns.indices {
+            let column = columns[idx]
             let col = NSTableColumn()
             col.title = column.title
+            col.identifier = .init("\(idx)")
             
             switch column.width {
             case let .fixed(width):
@@ -54,6 +56,7 @@ where RowValue: Hashable,
             case .default:
                 break
             }
+            col.isHidden = !column.isVisible
             
             tv.addTableColumn(col)
         }
@@ -86,6 +89,14 @@ where RowValue: Hashable,
         tableView.selection = selection
         tableView.columns = columns
         tableView.reloadData()
+        
+        // update column visibility
+        tableView.tableColumns.forEach { tableCol in
+            guard let foundIdx = columns.indices.first(where: { idx in
+                tableCol.identifier == .init("\(idx)")
+            }) else { return }
+            tableCol.isHidden = !columns[foundIdx].isVisible
+        }
         
         // restore selection from state
         DispatchQueue.main.async {
