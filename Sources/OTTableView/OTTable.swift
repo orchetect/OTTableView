@@ -41,6 +41,20 @@ where RowValue: Hashable,
         for column in columns {
             let col = NSTableColumn()
             col.title = column.title
+            
+            switch column.width {
+            case let .fixed(width):
+                col.width = width
+                col.resizingMask = []
+            case let .limits(min: minW, ideal: idealW, max: maxW):
+                if let minW { col.minWidth = minW }
+                if let maxW { col.maxWidth = maxW }
+                if let idealW { col.width = idealW }
+                col.resizingMask = [.userResizingMask, .autoresizingMask]
+            case .default:
+                break
+            }
+            
             tv.addTableColumn(col)
         }
         
