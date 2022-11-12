@@ -14,13 +14,13 @@ where RowValue: Hashable,
     
     @Binding public var contents: [RowValue]
     @Binding public var selection: Set<RowValue.ID>
-    @Binding public var columns: [OTTableColumn]
+    @Binding public var columns: [OTTableColumn<RowValue>]
     
     // MARK: Init
     
     public init(contents: Binding<Array<RowValue>>,
                 selection: Binding<Set<RowValue.ID>>,
-                columns: [OTTableColumn]) {
+                columns: [OTTableColumn<RowValue>]) {
         self._contents = contents
         self._selection = selection
         self._columns = .constant(columns)

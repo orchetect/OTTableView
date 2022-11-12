@@ -12,7 +12,7 @@ where RowValue: Hashable,
 {
     internal var contents: [RowValue] = []
     internal var selection: Set<RowValue.ID> = []
-    internal var columns: [OTTableColumn] = []
+    internal var columns: [OTTableColumn<RowValue>] = []
     
     // MARK: NSTableViewDelegate
     
@@ -29,21 +29,38 @@ where RowValue: Hashable,
         contents.count
     }
     
+//    public func tableView(_ tableView: NSTableView,
+//                          viewFor tableColumn: NSTableColumn?,
+//                          row: Int) -> NSView? {
+//        guard let tableColumn else { return nil }
+//        guard let idx = Int(tableColumn.identifier.rawValue) else { return nil }
+//        guard columns.indices.contains(idx) else { return nil }
+//
+//        let cellView = columns[idx].cellView(contents[row])
+//
+//        return NSHostingView(rootView: AnyView(cellView))
+//    }
+    
     public func tableView(
         _ tableView: NSTableView,
         objectValueFor tableColumn: NSTableColumn?,
         row: Int
     ) -> Any? {
-        // TODO: finish
-        return "Test"
+        guard let tableColumn else { return nil }
+        guard let idx = Int(tableColumn.identifier.rawValue) else { return nil }
+        guard columns.indices.contains(idx) else { return nil }
+        
+        let cellValue = columns[idx].cellValue(contents[row])
+        
+        return cellValue
     }
     
-    public func tableView(
-        _ tableView: NSTableView,
-        setObjectValue object: Any?,
-        for tableColumn: NSTableColumn?,
-        row: Int
-    ) {
-        // TODO: finish
-    }
+//    public func tableView(
+//        _ tableView: NSTableView,
+//        setObjectValue object: Any?,
+//        for tableColumn: NSTableColumn?,
+//        row: Int
+//    ) {
+//        // TODO: finish
+//    }
 }

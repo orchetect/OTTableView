@@ -6,13 +6,18 @@
 import AppKit
 import SwiftUI
 
-public struct OTTableColumn {
+public struct OTTableColumn<RowValue>
+where RowValue: Hashable,
+      RowValue: Identifiable
+{
     public var title: String
     public var isVisible: Bool = true
     internal var width: OTTableColumnWidth = .default
+    var cellValue: (_ rowItem: RowValue) -> Any?
     
-    public init(title: String) {
+    public init(title: String, _ cellValue: @escaping (_ rowItem: RowValue) -> Any?) {
         self.title = title
+        self.cellValue = cellValue
     }
 }
 

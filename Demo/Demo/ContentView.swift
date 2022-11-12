@@ -35,20 +35,28 @@ struct ContentView: View {
                 contents: $tableContents,
                 selection: $selection,
                 columns: [
-                    OTTableColumn(title: "Name")
-                        .width(150),
-                    OTTableColumn(title: "Kind")
-                        .visible(isKindShown)
-                        .width(min: 50, ideal: 100, max: 150),
-                    OTTableColumn(title: "Comments")
-                        .width(min: 150, ideal: 200, max: 1000),
+                    OTTableColumn(title: "Name") { row in
+                        row.name
+                    }
+                    .width(150),
+                    
+                    OTTableColumn(title: "Kind") { row in
+                        row.kind
+                    }
+                    .visible(isKindShown)
+                    .width(min: 50, ideal: 100, max: 150),
+                    
+                    OTTableColumn(title: "Comments") { row in
+                        row.comments
+                    }
+                    .width(min: 150, ideal: 200, max: 1000)
                 ]
             )
             
             HStack {
                 let selItems = tableContents.indices(for: selection)
                 if !selItems.isEmpty {
-                    Text(selItems.map { "\(tableContents[$0].value)" }.joined(separator: ", "))
+                    Text(selItems.map { "\(tableContents[$0].name)" }.joined(separator: ", "))
                 } else {
                     Text("No selection.")
                 }
@@ -57,11 +65,11 @@ struct ContentView: View {
         .padding()
     }
     
-    func addItem(_ item: TableItem = .init(value: "New Item")) {
+    func addItem(_ item: TableItem = .newItem()) {
         tableContents.append(item)
     }
     
-    func insertItem(_ item: TableItem = .init(value: "New Item")) {
+    func insertItem(_ item: TableItem = .newItem()) {
         let defaultIdx = tableContents.endIndex
         let idx = selection.isEmpty
             ? defaultIdx
