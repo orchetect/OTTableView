@@ -1,3 +1,3 @@
 # OTTableView
 
-A description of this package.
+SwiftUI implementation of NSTableView with more flexibility than SwiftU's `Table`.
