@@ -17,10 +17,10 @@ var body: some View {
         contents: $contents,
         selection: $selection,
         columns: [
-            OTTableColumn(title: "Name") { 
+            OTTableColumn(title: "Name") {
                 $0.name
-            } set: { row, newValue in
-                tableContents[row].name = newValue as? String ?? ""
+	        } set: { row, newValue in
+                contents[row].name = newValue
             }
             .width(150),
 
@@ -33,7 +33,7 @@ var body: some View {
             OTTableColumn(title: "Comments") { 
                 $0.comments
             } set: { row, newValue in
-                tableContents[row].comments = newValue as? String ?? ""
+                contents[row].comments = newValue
             }
             .width(min: 150, ideal: 200, max: 1000)
         ]
