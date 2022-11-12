@@ -32,8 +32,10 @@ struct ContentView: View {
                 contents: $tableContents,
                 selection: $selection,
                 columns: [
-                    .init(name: "Name").width(150),
-                    .init(name: "Comments").width(min: 150, ideal: 200, max: 1000)
+                    OTTableColumn(name: "Name")
+                        .width(150),
+                    OTTableColumn(name: "Comments")
+                        .width(min: 150, ideal: 200, max: 1000)
                 ]
             )
         }

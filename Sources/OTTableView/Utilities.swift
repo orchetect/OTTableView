@@ -1,11 +1,8 @@
 //
-//  Utilities.swift
-//  Demo
-//
-//  Created by Steffan Andrews on 2022-11-11.
+//  OTTableColumn.swift
+//  OTTableView
 //
 
-import Foundation
 import SwiftUI
 
 extension Array where Element: Identifiable {
