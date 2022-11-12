@@ -6,11 +6,13 @@
 import SwiftUI
 
 extension Array where Element: Identifiable {
-    func idsForIndices(_ indices: IndexSet) -> Set<Element.ID> {
+    @_disfavoredOverload
+    public func idsForIndices(_ indices: IndexSet) -> Set<Element.ID> {
         Set(indices.map { self[$0].id })
     }
     
-    func indices(for ids: Set<Element.ID>) -> IndexSet {
+    @_disfavoredOverload
+    public func indices(for ids: Set<Element.ID>) -> IndexSet {
         let indexArray = indices.filter { index in
             ids.contains(self[index].id)
         }

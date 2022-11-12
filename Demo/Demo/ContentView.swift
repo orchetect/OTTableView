@@ -44,6 +44,15 @@ struct ContentView: View {
                         .width(min: 150, ideal: 200, max: 1000),
                 ]
             )
+            
+            HStack {
+                let selItems = tableContents.indices(for: selection)
+                if !selItems.isEmpty {
+                    Text(selItems.map { "\(tableContents[$0].value)" }.joined(separator: ", "))
+                } else {
+                    Text("No selection.")
+                }
+            }
         }
         .padding()
     }
