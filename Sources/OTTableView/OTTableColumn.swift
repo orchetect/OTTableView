@@ -12,6 +12,7 @@ public struct OTTableColumn<RowValue>
 {
     public var title: String
     public let id: OTTableColumnID
+    public var isEditable: Bool = true
     public var isVisible: Bool = true
     internal var width: OTTableColumnWidth = .default
     
@@ -86,6 +87,14 @@ extension OTTableColumn {
     public func width(min: CGFloat?, ideal: CGFloat?, max: CGFloat?) -> Self {
         var copy = self
         copy.width = .limits(min: min, ideal: ideal, max: max)
+        return copy
+    }
+    
+    /// Sets the editable state for the column's row cells.
+    /// Has no effect if no setter is provided at the time of column creation.
+    public func editable(_ state: Bool) -> Self {
+        var copy = self
+        copy.isEditable = state
         return copy
     }
     

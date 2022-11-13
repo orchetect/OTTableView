@@ -145,6 +145,7 @@ public struct OTTable<RowValue>: NSViewRepresentable
         tableView.tableColumns.forEach { tableCol in
             guard let foundIdx = columns.firstIndex(matching: tableCol) else { return }
             tableCol.isHidden = !columns[foundIdx].isVisible
+            tableCol.isEditable = columns[foundIdx].isEditable
         }
         
         // restore selection from state

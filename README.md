@@ -13,6 +13,7 @@ var body: some View {
     @State var contents: [TableItem] = [ ... ]
     @State var selection: Set<TableItem.ID> = []
     @State var isKindColumnShown: Bool = true
+    @State var isCommentsEditable: Bool = true
     
     OTTable(
         contents: $contents,
@@ -37,6 +38,7 @@ var body: some View {
                 contents[row].comments = newValue
             }
             .width(min: 150, ideal: 200, max: 1000)
+            .editable(isCommentsEditable)
             .introspect { tableColumn in
                 tableColumn.resizingMask = [.userResizingMask]
             }

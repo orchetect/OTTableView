@@ -11,6 +11,7 @@ struct ContentView: View {
     @State var tableContents: [TableItem] = .mockItems()
     @State var selection: Set<TableItem.ID> = []
     @State var isKindColumnShown: Bool = true
+    @State var isCommentsEditable: Bool = true
     
     var body: some View {
         VStack(spacing: 15) {
@@ -20,6 +21,7 @@ struct ContentView: View {
                 Button("Delete") { removeSelected() }.disabled(selection.isEmpty)
                 Spacer()
                 Toggle("Show Kind", isOn: $isKindColumnShown)
+                Toggle("Comments Editable", isOn: $isCommentsEditable)
             }
             
             OTTable(
@@ -53,6 +55,7 @@ struct ContentView: View {
                         tableContents[row].comments = newValue
                     }
                     .width(min: 150, ideal: 200, max: 1000)
+                    .editable(isCommentsEditable)
                     .introspect { tableColumn in
                         tableColumn.resizingMask = [.userResizingMask]
                     }
