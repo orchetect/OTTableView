@@ -8,7 +8,7 @@ import SwiftUI
 import OTTableView
 
 struct ContentView: View {
-    @State var tableContents: [TableItem] = .mockItems()
+    @State var items: [TableItem] = .mockItems()
     @State var selection: Set<TableItem.ID> = []
     @State var isKindColumnShown: Bool = true
     @State var isCommentsEditable: Bool = true
@@ -24,19 +24,14 @@ struct ContentView: View {
                 Toggle("Comments Editable", isOn: $isCommentsEditable)
             }
             
-            OTTable(
-                scrollAxes: [.vertical],
-                showsScrollIndicators: false,
-                contents: tableContents,
-                selection: $selection
-            ) {
+            OTTable(contents: items, selection: $selection) {
                 OTTableColumn(title: "Name", id: "Name") {
                     $0.name
                 } set: { row, newValue in
                     guard let newValue = newValue as? String,
-                          tableContents.indices.contains(row)
+                          items.indices.contains(row)
                     else { return }
-                    tableContents[row].name = newValue
+                    items[row].name = newValue
                 }
                 .width(150)
                     
@@ -50,9 +45,9 @@ struct ContentView: View {
                     $0.comments
                 } set: { row, newValue in
                     guard let newValue = newValue as? String,
-                          tableContents.indices.contains(row)
+                          items.indices.contains(row)
                     else { return }
-                    tableContents[row].comments = newValue
+                    items[row].comments = newValue
                 }
                 .width(min: 150, ideal: 200, max: 1000)
                 .editable(isCommentsEditable)
@@ -70,9 +65,9 @@ struct ContentView: View {
             }
             
             HStack {
-                let selItems = tableContents.indices(for: selection)
+                let selItems = items.indices(for: selection)
                 if !selItems.isEmpty {
-                    Text(selItems.map { "\(tableContents[$0].name)" }.joined(separator: ", "))
+                    Text(selItems.map { "\(items[$0].name)" }.joined(separator: ", "))
                 } else {
                     Text("No selection.")
                 }
@@ -82,21 +77,21 @@ struct ContentView: View {
     }
     
     func addItem(_ item: TableItem = .newItem()) {
-        tableContents.append(item)
+        items.append(item)
     }
     
     func insertItem(_ item: TableItem = .newItem()) {
-        let defaultIdx = tableContents.endIndex
+        let defaultIdx = items.endIndex
         let idx = selection.isEmpty
             ? defaultIdx
-            : tableContents.firstIndex(where: { selection.contains($0.id) })
+            : items.firstIndex(where: { selection.contains($0.id) })
                 ?? defaultIdx
         
-        tableContents.insert(item, at: idx)
+        items.insert(item, at: idx)
     }
     
     func removeSelected() {
-        tableContents.removeAll(where: { selection.contains($0.id) })
+        items.removeAll(where: { selection.contains($0.id) })
     }
 }
 
