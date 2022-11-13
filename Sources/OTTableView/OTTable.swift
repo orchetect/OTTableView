@@ -70,6 +70,10 @@ public struct OTTable<RowValue>: NSViewRepresentable
             col.isHidden = !column.isVisible
             col.isEditable = column.setValue != nil
             
+            // introspection blocks
+            for block in column.introspectBlocks {
+                block(col)
+            }
             tv.addTableColumn(col)
         }
         
