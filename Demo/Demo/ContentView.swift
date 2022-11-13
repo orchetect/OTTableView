@@ -60,8 +60,11 @@ struct ContentView: View {
             )
             .introspect { tableView, scrollView in
                 tableView.allowsExpansionToolTips = true
-                tableView.usesAlternatingRowBackgroundColors = false
+                tableView.style = .fullWidth
                 scrollView.usesPredominantAxisScrolling = false
+            }
+            .onDeleteCommand {
+                removeSelected()
             }
             
             HStack {
