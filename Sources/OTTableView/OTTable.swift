@@ -29,6 +29,7 @@ public struct OTTable<RowValue>: NSViewRepresentable
     
     // MARK: Init
     
+    @_disfavoredOverload
     public init(
         scrollAxes: Axis.Set = [.horizontal, .vertical],
         showsScrollIndicators: Bool = true,
@@ -41,6 +42,22 @@ public struct OTTable<RowValue>: NSViewRepresentable
         _contents = contents
         _selection = selection
         _columns = .constant(columns)
+    }
+    
+    public init(
+        scrollAxes: Axis.Set = [.horizontal, .vertical],
+        showsScrollIndicators: Bool = true,
+        contents: Binding<[RowValue]>,
+        selection: Binding<Set<RowValue.ID>>,
+        @OTTableColumnBuilder<RowValue> _ builder: () -> [OTTableColumn<RowValue>]
+    ) {
+        self.init(
+            scrollAxes: scrollAxes,
+            showsScrollIndicators: showsScrollIndicators,
+            contents: contents,
+            selection: selection,
+            columns: builder()
+        )
     }
     
     // MARK: NSViewRepresentable overrides

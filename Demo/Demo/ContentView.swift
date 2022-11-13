@@ -28,39 +28,38 @@ struct ContentView: View {
                 scrollAxes: [.vertical],
                 showsScrollIndicators: false,
                 contents: $tableContents,
-                selection: $selection,
-                columns: [
-                    OTTableColumn(title: "Name", id: "Name") {
-                        $0.name
-                    } set: { row, newValue in
-                        guard let newValue = newValue as? String,
-                              tableContents.indices.contains(row)
-                        else { return }
-                        tableContents[row].name = newValue
-                    }
-                    .width(150),
+                selection: $selection
+            ) {
+                OTTableColumn(title: "Name", id: "Name") {
+                    $0.name
+                } set: { row, newValue in
+                    guard let newValue = newValue as? String,
+                          tableContents.indices.contains(row)
+                    else { return }
+                    tableContents[row].name = newValue
+                }
+                .width(150)
                     
-                    OTTableColumn(title: "Kind (read-only)", id: "Kind") {
-                        $0.kind
-                    }
-                    .visible(isKindColumnShown)
-                    .width(min: 50, ideal: 100, max: 150),
+                OTTableColumn(title: "Kind (read-only)", id: "Kind") {
+                    $0.kind
+                }
+                .visible(isKindColumnShown)
+                .width(min: 50, ideal: 100, max: 150)
                     
-                    OTTableColumn(title: "Comments", id: "Comments") {
-                        $0.comments
-                    } set: { row, newValue in
-                        guard let newValue = newValue as? String,
-                              tableContents.indices.contains(row)
-                        else { return }
-                        tableContents[row].comments = newValue
-                    }
-                    .width(min: 150, ideal: 200, max: 1000)
-                    .editable(isCommentsEditable)
-                    .introspect { tableColumn in
-                        tableColumn.resizingMask = [.userResizingMask]
-                    }
-                ]
-            )
+                OTTableColumn(title: "Comments", id: "Comments") {
+                    $0.comments
+                } set: { row, newValue in
+                    guard let newValue = newValue as? String,
+                          tableContents.indices.contains(row)
+                    else { return }
+                    tableContents[row].comments = newValue
+                }
+                .width(min: 150, ideal: 200, max: 1000)
+                .editable(isCommentsEditable)
+                .introspect { tableColumn in
+                    tableColumn.resizingMask = [.userResizingMask]
+                }
+            }
             .introspect { tableView, scrollView in
                 tableView.allowsExpansionToolTips = true
                 tableView.style = .fullWidth

@@ -15,35 +15,31 @@ var body: some View {
     @State var isKindColumnShown: Bool = true
     @State var isCommentsEditable: Bool = true
     
-    OTTable(
-        contents: $contents,
-        selection: $selection,
-        columns: [
-            OTTableColumn(title: "Name") {
-                $0.name
-	        } set: { row, newValue in
-                contents[row].name = newValue
-            }
-            .width(150),
+    OTTable(contents: $contents, selection: $selection) {
+        OTTableColumn(title: "Name") {
+            $0.name
+        } set: { row, newValue in
+            contents[row].name = newValue
+        }
+        .width(150)
 
-            OTTableColumn(title: "Kind (read-only)") { 
-                $0.kind
-            }
-            .visible(isKindColumnShown)
-            .width(min: 50, ideal: 100, max: 150),
+        OTTableColumn(title: "Kind (read-only)") { 
+            $0.kind
+        }
+        .visible(isKindColumnShown)
+        .width(min: 50, ideal: 100, max: 150)
 
-            OTTableColumn(title: "Comments") { 
-                $0.comments
-            } set: { row, newValue in
-                contents[row].comments = newValue
-            }
-            .width(min: 150, ideal: 200, max: 1000)
-            .editable(isCommentsEditable)
-            .introspect { tableColumn in
-                tableColumn.resizingMask = [.userResizingMask]
-            }
-        ]
-    )
+        OTTableColumn(title: "Comments") { 
+            $0.comments
+        } set: { row, newValue in
+            contents[row].comments = newValue
+        }
+        .width(min: 150, ideal: 200, max: 1000)
+        .editable(isCommentsEditable)
+        .introspect { tableColumn in
+            tableColumn.resizingMask = [.userResizingMask]
+        }
+    }
     .introspect { tableView, scrollView in
         // make property modifications that do not have dedicated view modifiers
         tableView.allowsExpansionToolTips = true
@@ -68,5 +64,5 @@ var body: some View {
 - [ ] Allow table sorting (may require some custom abstractions)
 - [ ] Add view modifier methods to take closures for certain useful `NSTableView` delegate method bodies, such as drag and drop
 - [ ] Add ergonomics, ie: contextual row selection after appending, inserting, or deleting rows
-- [ ] Implement column result builder instead of `OTTableColumn` array?
+- [x] Implement column result builder instead of `OTTableColumn` array
 - [ ] Performance optimizations
