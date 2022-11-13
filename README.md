@@ -63,8 +63,8 @@ var body: some View {
 - [ ] View Modifiers
   - [x] `OTTable`: scroll view axes (SwiftUI `Axis.Set`)
 - [ ] Allow for single-selection or no-selection modes (in addition to the current multi-select mode)
-- [ ] Allow programmatic read/write of `OTTable` column order (via SwiftUI Binding)
-- [ ] Allow cell editable toggle by way of new `.editable(Bool)` modifier on `OTTableColumn`. (For now, any `OTTableColumn` with a setter closure is editable and any without the closure (nil) are read-only.)
+- [ ] Allow programmatic read/write of `OTTable` column order (via SwiftUI Binding of `[OTTableColumnID]`)
+- [x] Allow cell editable toggle by way of new `.editable(Bool)` modifier on `OTTableColumn`. (For now, any `OTTableColumn` with a setter closure is editable and any without the closure (nil) are read-only.)
 - [ ] Allow table sorting (may require some custom abstractions)
 - [ ] Add view modifier methods to take closures for certain useful `NSTableView` delegate method bodies, such as drag and drop
 - [ ] Add ergonomics, ie: contextual row selection after appending, inserting, or deleting rows
