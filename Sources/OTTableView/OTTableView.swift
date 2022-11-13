@@ -10,6 +10,8 @@ import SwiftUI
 public class OTTableView<RowValue>: NSTableView, NSTableViewDelegate, NSTableViewDataSource
     where RowValue: Hashable, RowValue: Identifiable
 {
+    public var axes: Axis.Set = [.horizontal, .vertical]
+    
     internal var contents: [RowValue] = []
     internal var selection: Set<RowValue.ID> = []
     internal var columns: [OTTableColumn<RowValue>] = []
@@ -66,5 +68,25 @@ public class OTTableView<RowValue>: NSTableView, NSTableViewDelegate, NSTableVie
         guard columns.indices.contains(idx) else { return }
         
         columns[idx].setValue?(row, object)
+    }
+    
+    // MARK: NSView Overrides
+    
+    // overriding this allows the scroll axes to be constrained
+    public override func adjustScroll(_ newVisible: NSRect) -> NSRect {
+        if axes == [.horizontal, .vertical] {
+            return super.adjustScroll(newVisible)
+        }
+        
+        var newRect = newVisible
+        if !axes.contains(.horizontal) {
+            newRect.origin.x = bounds.origin.x
+        }
+        
+        if !axes.contains(.vertical) {
+            newRect.origin.y = bounds.origin.y
+        }
+        
+        return newRect
     }
 }

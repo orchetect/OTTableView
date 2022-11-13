@@ -12,6 +12,8 @@ public struct OTTable<RowValue>: NSViewRepresentable
 {
     // MARK: Public properties
     
+    public var scrollAxes: Axis.Set
+    public var showsScrollIndicators: Bool
     @Binding public var contents: [RowValue]
     @Binding public var selection: Set<RowValue.ID>
     @Binding public var columns: [OTTableColumn<RowValue>]
@@ -28,10 +30,14 @@ public struct OTTable<RowValue>: NSViewRepresentable
     // MARK: Init
     
     public init(
+        scrollAxes: Axis.Set = [.horizontal, .vertical],
+        showsScrollIndicators: Bool = true,
         contents: Binding<[RowValue]>,
         selection: Binding<Set<RowValue.ID>>,
         columns: [OTTableColumn<RowValue>]
     ) {
+        self.scrollAxes = scrollAxes
+        self.showsScrollIndicators = showsScrollIndicators
         _contents = contents
         _selection = selection
         _columns = .constant(columns)
@@ -42,11 +48,18 @@ public struct OTTable<RowValue>: NSViewRepresentable
     public typealias NSViewType = OTTableScrollView<RowValue>
     
     public func makeNSView(context: Context) -> NSViewType {
+        let tv = buildTableView()
+        let sv = buildScrollView(tableView: tv)
+        return sv
+    }
+    
+    private func buildTableView() -> OTTableView<RowValue> {
         let tv = OTTableView<RowValue>()
         
         // data source
         tv.dataSource = tv
         tv.delegate = tv
+        tv.axes = scrollAxes
         
         // column setup
         for idx in columns.indices {
@@ -86,14 +99,28 @@ public struct OTTable<RowValue>: NSViewRepresentable
         // style
         tv.usesAlternatingRowBackgroundColors = true
         
-        // scrollview
-        let sv = OTTableScrollView<RowValue>(tableView: tv)
-        sv.documentView = tv
-        sv.hasVerticalScroller = true
+        return tv
+    }
+    
+    private func buildScrollView(
+        tableView: OTTableView<RowValue>
+    ) -> OTTableScrollView<RowValue> {
+        let sv = OTTableScrollView<RowValue>(tableView: tableView)
+        
+        // content and geometry
+        sv.translatesAutoresizingMaskIntoConstraints = false // has no effect?
+        sv.documentView = tableView
+        
+        sv.hasVerticalScroller = scrollAxes.contains(.vertical)
+        sv.hasHorizontalScroller = scrollAxes.contains(.horizontal)
+        
+        // prevent glitchy behavior when axes are constrained
+        sv.verticalScrollElasticity = scrollAxes.contains(.vertical) ? .automatic : .none
+        sv.horizontalScrollElasticity = scrollAxes.contains(.horizontal) ? .automatic : .none
         
         // introspection blocks
         for block in introspectBlocks {
-            block(tv, sv)
+            block(tableView, sv)
         }
         
         return sv
@@ -129,13 +156,6 @@ public struct OTTable<RowValue>: NSViewRepresentable
                 byExtendingSelection: false
             )
         }
-    }
-    
-    // MARK: Helpers
-    
-    public func updateSelection(from indices: IndexSet) {
-        let indices = contents.idsForIndices(indices)
-        selection = indices
     }
     
     // MARK: Coordinator
@@ -187,6 +207,13 @@ public struct OTTable<RowValue>: NSViewRepresentable
     class UpdateStatus: ObservableObject {
         var updatingFromUpdateNSView: Bool = false
         var updatingFromCoordinator: Bool = false
+    }
+    
+    // MARK: Helpers
+    
+    public func updateSelection(from indices: IndexSet) {
+        let indices = contents.idsForIndices(indices)
+        selection = indices
     }
 }
 

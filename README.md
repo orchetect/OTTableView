@@ -37,11 +37,15 @@ var body: some View {
                 contents[row].comments = newValue
             }
             .width(min: 150, ideal: 200, max: 1000)
+            .introspect { tableColumn in
+                tableColumn.resizingMask = [.userResizingMask]
+            }
         ]
     )
     .introspect { tableView, scrollView in
         // make property modifications that do not have dedicated view modifiers
         tableView.allowsExpansionToolTips = true
+        scrollView.usesPredominantAxisScrolling = false
     }
 }
 ```
@@ -54,10 +58,13 @@ var body: some View {
 
 ## Roadmap
 
+- [ ] View Modifiers
+  - [x] `OTTable`: scroll view axes (SwiftUI `Axis.Set`)
 - [ ] Allow for single-selection or no-selection modes (in addition to the current multi-select mode)
 - [ ] Allow programmatic read/write of `OTTable` column order (via SwiftUI Binding)
 - [ ] Allow cell editable toggle by way of new `.editable(Bool)` modifier on `OTTableColumn`. (For now, any `OTTableColumn` with a setter closure is editable and any without the closure (nil) are read-only.)
 - [ ] Allow table sorting (may require some custom abstractions)
-- [ ] Add view modifier methods to take closures for certain useful NSTableView delegate method bodies
+- [ ] Add view modifier methods to take closures for certain useful `NSTableView` delegate method bodies
 - [ ] Add ergonomics, ie: contextual row selection after appending, inserting, or deleting rows
+- [ ] Implement column result builder instead of `OTTableColumn` array?
 - [ ] Performance optimizations

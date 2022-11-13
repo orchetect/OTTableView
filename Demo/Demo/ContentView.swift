@@ -23,6 +23,8 @@ struct ContentView: View {
             }
             
             OTTable(
+                scrollAxes: [.vertical],
+                showsScrollIndicators: false,
                 contents: $tableContents,
                 selection: $selection,
                 columns: [
@@ -59,6 +61,7 @@ struct ContentView: View {
             .introspect { tableView, scrollView in
                 tableView.allowsExpansionToolTips = true
                 tableView.usesAlternatingRowBackgroundColors = false
+                scrollView.usesPredominantAxisScrolling = false
             }
             
             HStack {

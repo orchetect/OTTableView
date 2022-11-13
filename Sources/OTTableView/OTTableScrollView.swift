@@ -10,9 +10,9 @@ import SwiftUI
 public class OTTableScrollView<RowValue>: NSScrollView
     where RowValue: Hashable, RowValue: Identifiable
 {
-    public typealias NSViewType = OTTableView<RowValue>
-    
     public let tableView: OTTableView<RowValue>
+    
+    // MARK: Init
     
     public init(tableView: OTTableView<RowValue>) {
         self.tableView = tableView
