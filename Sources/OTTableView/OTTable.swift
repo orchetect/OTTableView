@@ -30,28 +30,28 @@ public struct OTTable<RowValue>: NSViewRepresentable
     
     @_disfavoredOverload
     public init(
-        scrollAxes: Axis.Set = [.horizontal, .vertical],
-        contents: [RowValue],
+        _ data: [RowValue],
         selection: Binding<Set<RowValue.ID>>,
+        scrollAxes: Axis.Set = [.horizontal, .vertical],
         columns: [OTTableColumn<RowValue>]
     ) {
         self.scrollAxes = scrollAxes
-        _contents = State(initialValue: contents)
+        _contents = State(initialValue: data)
         _selection = selection
         _columns = .constant(columns)
     }
     
     public init(
-        scrollAxes: Axis.Set = [.horizontal, .vertical],
-        contents: [RowValue],
+        _ data: [RowValue],
         selection: Binding<Set<RowValue.ID>>,
-        @OTTableColumnBuilder<RowValue> _ builder: () -> [OTTableColumn<RowValue>]
+        scrollAxes: Axis.Set = [.horizontal, .vertical],
+        @OTTableColumnBuilder<RowValue> columns: () -> [OTTableColumn<RowValue>]
     ) {
         self.init(
-            scrollAxes: scrollAxes,
-            contents: contents,
+            data,
             selection: selection,
-            columns: builder()
+            scrollAxes: scrollAxes,
+            columns: columns()
         )
     }
     

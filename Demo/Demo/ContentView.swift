@@ -24,7 +24,7 @@ struct ContentView: View {
                 Toggle("Comments Editable", isOn: $isCommentsEditable)
             }
             
-            OTTable(contents: items, selection: $selection) {
+            OTTable(items, selection: $selection) {
                 OTTableColumn(title: "Name", id: "Name") {
                     $0.name
                 } set: { row, newValue in

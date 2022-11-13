@@ -10,16 +10,16 @@ Simple example:
 
 ```swift
 var body: some View {
-    @State var contents: [TableItem] = [ ... ]
+    @State var items: [TableItem] = [ ... ]
     @State var selection: Set<TableItem.ID> = []
     @State var isNameEditable: Bool = true
     @State var isKindColumnShown: Bool = true
     
-    OTTable(contents: contents, selection: $selection) { item in
+    OTTable(items, selection: $selection) { item in
         OTTableColumn(title: "Name") {
             item.name
         } set: { row, newValue in
-            contents[row].name = newValue
+            items[row].name = newValue
         }
         .editable(isNameEditable)
         .width(150)
