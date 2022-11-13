@@ -49,12 +49,10 @@ public class OTTableView<RowValue>: NSTableView, NSTableViewDelegate, NSTableVie
         row: Int
     ) -> Any? {
         guard let tableColumn else { return nil }
-        guard let idx = Int(tableColumn.identifier.rawValue) else { return nil }
-        guard columns.indices.contains(idx) else { return nil }
         
-        let cellValue = columns[idx].getValue(contents[row])
-        
-        return cellValue
+        return columns
+            .first(matching: tableColumn)?
+            .getValue(contents[row])
     }
     
     public func tableView(
@@ -64,10 +62,10 @@ public class OTTableView<RowValue>: NSTableView, NSTableViewDelegate, NSTableVie
         row: Int
     ) {
         guard let tableColumn else { return }
-        guard let idx = Int(tableColumn.identifier.rawValue) else { return }
-        guard columns.indices.contains(idx) else { return }
         
-        columns[idx].setValue?(row, object)
+        columns
+            .first(matching: tableColumn)?
+            .setValue?(row, object)
     }
     
     // MARK: NSView Overrides

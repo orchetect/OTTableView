@@ -28,7 +28,7 @@ struct ContentView: View {
                 contents: $tableContents,
                 selection: $selection,
                 columns: [
-                    OTTableColumn(title: "Name") {
+                    OTTableColumn(title: "Name", id: "Name") {
                         $0.name
                     } set: { row, newValue in
                         guard let newValue = newValue as? String,
@@ -38,13 +38,13 @@ struct ContentView: View {
                     }
                     .width(150),
                     
-                    OTTableColumn(title: "Kind (read-only)") {
+                    OTTableColumn(title: "Kind (read-only)", id: "Kind") {
                         $0.kind
                     }
                     .visible(isKindColumnShown)
                     .width(min: 50, ideal: 100, max: 150),
                     
-                    OTTableColumn(title: "Comments") {
+                    OTTableColumn(title: "Comments", id: "Comments") {
                         $0.comments
                     } set: { row, newValue in
                         guard let newValue = newValue as? String,

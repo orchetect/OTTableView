@@ -11,6 +11,7 @@ public struct OTTableColumn<RowValue>
     where RowValue: Hashable, RowValue: Identifiable
 {
     public var title: String
+    public let id: OTTableColumnID
     public var isVisible: Bool = true
     internal var width: OTTableColumnWidth = .default
     
@@ -29,12 +30,28 @@ public struct OTTableColumn<RowValue>
     
     public init(
         title: String,
+        id: OTTableColumnID? = nil,
         get getValue: @escaping (_ rowItem: RowValue) -> Any?,
         set setValue: ((_ row: Int, _ newValue: Any?) -> Void)? = nil
     ) {
         self.title = title
+        self.id = id ?? OTTableColumnID(title)
         self.getValue = getValue
         self.setValue = setValue
+    }
+    
+    public init(
+        title: String,
+        id: String,
+        get getValue: @escaping (_ rowItem: RowValue) -> Any?,
+        set setValue: ((_ row: Int, _ newValue: Any?) -> Void)? = nil
+    ) {
+        self.init(
+            title: title,
+            id: OTTableColumnID(id),
+            get: getValue,
+            set: setValue
+        )
     }
 }
 

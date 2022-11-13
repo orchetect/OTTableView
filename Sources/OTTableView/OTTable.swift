@@ -66,7 +66,7 @@ public struct OTTable<RowValue>: NSViewRepresentable
             let column = columns[idx]
             let col = NSTableColumn()
             col.title = column.title
-            col.identifier = .init("\(idx)")
+            col.identifier = column.id.id
             
             switch column.width {
             case let .fixed(width):
@@ -143,9 +143,7 @@ public struct OTTable<RowValue>: NSViewRepresentable
         
         // update column visibility
         tableView.tableColumns.forEach { tableCol in
-            guard let foundIdx = columns.indices.first(where: { idx in
-                tableCol.identifier == .init("\(idx)")
-            }) else { return }
+            guard let foundIdx = columns.firstIndex(matching: tableCol) else { return }
             tableCol.isHidden = !columns[foundIdx].isVisible
         }
         
