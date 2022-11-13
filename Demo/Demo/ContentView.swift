@@ -27,7 +27,7 @@ struct ContentView: View {
             OTTable(
                 scrollAxes: [.vertical],
                 showsScrollIndicators: false,
-                contents: $tableContents,
+                contents: tableContents,
                 selection: $selection
             ) {
                 OTTableColumn(title: "Name", id: "Name") {

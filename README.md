@@ -12,36 +12,28 @@ Simple example:
 var body: some View {
     @State var contents: [TableItem] = [ ... ]
     @State var selection: Set<TableItem.ID> = []
+    @State var isNameEditable: Bool = true
     @State var isKindColumnShown: Bool = true
-    @State var isCommentsEditable: Bool = true
     
-    OTTable(contents: $contents, selection: $selection) {
+    OTTable(contents: contents, selection: $selection) { item in
         OTTableColumn(title: "Name") {
-            $0.name
+            item.name
         } set: { row, newValue in
             contents[row].name = newValue
         }
+        .editable(isNameEditable)
         .width(150)
 
-        OTTableColumn(title: "Kind (read-only)") { 
-            $0.kind
+        OTTableColumn(title: "Comments") { 
+            item.kind
         }
         .visible(isKindColumnShown)
         .width(min: 50, ideal: 100, max: 150)
-
-        OTTableColumn(title: "Comments") { 
-            $0.comments
-        } set: { row, newValue in
-            contents[row].comments = newValue
-        }
-        .width(min: 150, ideal: 200, max: 1000)
-        .editable(isCommentsEditable)
         .introspect { tableColumn in
             tableColumn.resizingMask = [.userResizingMask]
         }
     }
     .introspect { tableView, scrollView in
-        // make property modifications that do not have dedicated view modifiers
         tableView.allowsExpansionToolTips = true
         scrollView.usesPredominantAxisScrolling = false
     }

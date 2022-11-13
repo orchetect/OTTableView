@@ -14,7 +14,7 @@ public struct OTTable<RowValue>: NSViewRepresentable
     
     public var scrollAxes: Axis.Set
     public var showsScrollIndicators: Bool
-    @Binding public var contents: [RowValue]
+    @State public var contents: [RowValue]
     @Binding public var selection: Set<RowValue.ID>
     @Binding public var columns: [OTTableColumn<RowValue>]
     
@@ -33,13 +33,13 @@ public struct OTTable<RowValue>: NSViewRepresentable
     public init(
         scrollAxes: Axis.Set = [.horizontal, .vertical],
         showsScrollIndicators: Bool = true,
-        contents: Binding<[RowValue]>,
+        contents: [RowValue],
         selection: Binding<Set<RowValue.ID>>,
         columns: [OTTableColumn<RowValue>]
     ) {
         self.scrollAxes = scrollAxes
         self.showsScrollIndicators = showsScrollIndicators
-        _contents = contents
+        _contents = State(initialValue: contents)
         _selection = selection
         _columns = .constant(columns)
     }
@@ -47,7 +47,7 @@ public struct OTTable<RowValue>: NSViewRepresentable
     public init(
         scrollAxes: Axis.Set = [.horizontal, .vertical],
         showsScrollIndicators: Bool = true,
-        contents: Binding<[RowValue]>,
+        contents: [RowValue],
         selection: Binding<Set<RowValue.ID>>,
         @OTTableColumnBuilder<RowValue> _ builder: () -> [OTTableColumn<RowValue>]
     ) {
