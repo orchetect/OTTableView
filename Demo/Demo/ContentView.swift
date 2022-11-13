@@ -51,10 +51,12 @@ struct ContentView: View {
                         tableContents[row].comments = newValue
                     }
                     .width(min: 150, ideal: 200, max: 1000)
+                    .introspect { tableColumn in
+                        tableColumn.resizingMask = [.userResizingMask]
+                    }
                 ]
             )
             .introspect { tableView, scrollView in
-                // make property modifications that do not have dedicated view modifiers
                 tableView.allowsExpansionToolTips = true
                 tableView.usesAlternatingRowBackgroundColors = false
             }
