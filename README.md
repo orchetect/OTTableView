@@ -4,6 +4,7 @@ SwiftUI implementation of [`NSTableView`](https://developer.apple.com/documentat
 
 - Allows column reordering via drag-and-drop
 - Allows columns to be hidden using a simple view modifier
+- Provides introspection view modifiers to allow granular modifications to the NS objects if needed
 
 Simple example:
 
@@ -38,6 +39,10 @@ var body: some View {
             .width(min: 150, ideal: 200, max: 1000)
         ]
     )
+    .introspect { tableView, scrollView in
+        // make property modifications that do not have dedicated view modifiers
+        tableView.allowsExpansionToolTips = true
+    }
 }
 ```
 
@@ -53,5 +58,6 @@ var body: some View {
 - [ ] Allow programmatic read/write of `OTTable` column order (via SwiftUI Binding)
 - [ ] Allow cell editable toggle by way of new `.editable(Bool)` modifier on `OTTableColumn`. (For now, any `OTTableColumn` with a setter closure is editable and any without the closure (nil) are read-only.)
 - [ ] Allow table sorting (may require some custom abstractions)
+- [ ] Add view modifier methods to take closures for certain useful NSTableView delegate method bodies
 - [ ] Add ergonomics, ie: contextual row selection after appending, inserting, or deleting rows
 - [ ] Performance optimizations

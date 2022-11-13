@@ -16,6 +16,15 @@ public struct OTTable<RowValue>: NSViewRepresentable
     @Binding public var selection: Set<RowValue.ID>
     @Binding public var columns: [OTTableColumn<RowValue>]
     
+    // MARK: Introspection
+    
+    public typealias IntrospectBlock = (
+        _ tableView: OTTableView<RowValue>,
+        _ scrollView: OTTableScrollView<RowValue>
+    ) -> Void
+    
+    internal var introspectBlocks: [IntrospectBlock] = []
+    
     // MARK: Init
     
     public init(
@@ -77,6 +86,11 @@ public struct OTTable<RowValue>: NSViewRepresentable
         let sv = OTTableScrollView<RowValue>(tableView: tv)
         sv.documentView = tv
         sv.hasVerticalScroller = true
+        
+        // introspection blocks
+        for block in introspectBlocks {
+            block(tv, sv)
+        }
         
         return sv
     }
@@ -169,5 +183,18 @@ public struct OTTable<RowValue>: NSViewRepresentable
     class UpdateStatus: ObservableObject {
         var updatingFromUpdateNSView: Bool = false
         var updatingFromCoordinator: Bool = false
+    }
+}
+
+// MARK: View Modifiers
+
+extension OTTable {
+    /// A generic introspection block that allows direct access to the table view and scroll view objects.
+    public func introspect(
+        _ block: @escaping IntrospectBlock
+    ) -> Self {
+        var copy = self
+        copy.introspectBlocks.append(block)
+        return copy
     }
 }

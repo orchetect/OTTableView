@@ -15,20 +15,10 @@ struct ContentView: View {
     var body: some View {
         VStack(spacing: 15) {
             HStack {
-                Button("Add") {
-                    addItem()
-                }
-                
-                Button("Insert") {
-                    insertItem()
-                }
-                
-                Button("Delete") {
-                    removeSelected()
-                }.disabled(selection.isEmpty)
-                
+                Button("Add") { addItem() }
+                Button("Insert") { insertItem() }
+                Button("Delete") { removeSelected() }.disabled(selection.isEmpty)
                 Spacer()
-                
                 Toggle("Show Kind", isOn: $isKindColumnShown)
             }
             
@@ -63,6 +53,11 @@ struct ContentView: View {
                     .width(min: 150, ideal: 200, max: 1000)
                 ]
             )
+            .introspect { tableView, scrollView in
+                // make property modifications that do not have dedicated view modifiers
+                tableView.allowsExpansionToolTips = true
+                tableView.usesAlternatingRowBackgroundColors = false
+            }
             
             HStack {
                 let selItems = tableContents.indices(for: selection)
