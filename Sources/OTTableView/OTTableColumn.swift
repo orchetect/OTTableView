@@ -19,6 +19,9 @@ public struct OTTableColumn<RowValue>
     var getValue: (_ item: RowValue) -> Any?
     var setValue: ((_ itemID: RowValue.ID, _ newValue: Any?) -> Void)?
     
+    /// Returns true if the column has an edited value setter.
+    public var hasSetter: Bool { setValue != nil }
+    
     // MARK: Introspection
     
     public typealias IntrospectBlock = (

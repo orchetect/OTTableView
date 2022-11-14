@@ -93,7 +93,7 @@ public struct OTTable<RowValue>: NSViewRepresentable
                 break
             }
             col.isHidden = !column.isVisible
-            col.isEditable = column.setValue != nil
+            col.isEditable = column.hasSetter
             
             // introspection blocks
             for block in column.introspectBlocks {
@@ -157,7 +157,9 @@ public struct OTTable<RowValue>: NSViewRepresentable
         tableView.tableColumns.forEach { tableCol in
             guard let foundIdx = columns.firstIndex(matching: tableCol) else { return }
             tableCol.isHidden = !columns[foundIdx].isVisible
-            tableCol.isEditable = columns[foundIdx].isEditable
+            if columns[foundIdx].hasSetter { // only allow editable if setter exists
+                tableCol.isEditable = columns[foundIdx].isEditable
+            }
         }
         
         // restore selection from state
