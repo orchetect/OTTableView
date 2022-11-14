@@ -14,9 +14,8 @@ extension Array where Element: Identifiable {
     
     @_disfavoredOverload
     public func indices(for ids: Set<Element.ID>) -> IndexSet {
-        let indexArray = indices.filter { index in
-            ids.contains(self[index].id)
-        }
+        let indexArray = indices
+            .filter { ids.contains(self[$0].id) }
         return IndexSet(indexArray)
     }
 }

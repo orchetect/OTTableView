@@ -19,6 +19,7 @@ struct ContentView: View {
                 Button("Add") { addItem() }
                 Button("Insert") { insertItem() }
                 Button("Delete") { removeSelected() }.disabled(selection.isEmpty)
+                Button("Select An Item") { selectAnItem() }.disabled(filteredItems.isEmpty)
                 Spacer()
                 Toggle("Show Kind", isOn: $isKindColumnShown)
                 Toggle("Comments Editable", isOn: $isCommentsEditable)
@@ -27,11 +28,11 @@ struct ContentView: View {
             OTTable(items, selection: $selection) {
                 OTTableColumn(title: "Name", id: "Name") {
                     $0.name
-                } set: { row, newValue in
+                } set: { itemID, newValue in
                     guard let newValue = newValue as? String,
-                          items.indices.contains(row)
+                          let idx = items.firstIndex(where: { $0.id == itemID })
                     else { return }
-                    items[row].name = newValue
+                    items[idx].name = newValue
                 }
                 .width(150)
                     
@@ -43,11 +44,11 @@ struct ContentView: View {
                     
                 OTTableColumn(title: "Comments", id: "Comments") {
                     $0.comments
-                } set: { row, newValue in
+                } set: { itemID, newValue in
                     guard let newValue = newValue as? String,
-                          items.indices.contains(row)
+                          let idx = items.firstIndex(where: { $0.id == itemID })
                     else { return }
-                    items[row].comments = newValue
+                    items[idx].comments = newValue
                 }
                 .width(min: 150, ideal: 200, max: 1000)
                 .editable(isCommentsEditable)
@@ -57,7 +58,7 @@ struct ContentView: View {
             }
             .introspect { tableView, scrollView in
                 tableView.allowsExpansionToolTips = true
-                tableView.style = .fullWidth
+                tableView.style = .plain
                 scrollView.usesPredominantAxisScrolling = false
             }
             .onDeleteCommand {
@@ -92,6 +93,13 @@ struct ContentView: View {
     
     func removeSelected() {
         items.removeAll(where: { selection.contains($0.id) })
+    }
+    
+    func selectAnItem() {
+        let getID = filteredItems.randomElement()?.id
+        if let getID {
+            selection = [getID]
+        }
     }
 }
 

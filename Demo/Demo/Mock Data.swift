@@ -17,6 +17,12 @@ extension TableItem {
     static func newItem() -> Self {
         .init(name: "New Item", kind: "", comments: "")
     }
+    
+    public func matches(searchText: String) -> Bool {
+        name.localizedCaseInsensitiveContains(searchText) ||
+        kind.localizedCaseInsensitiveContains(searchText) ||
+        comments.localizedCaseInsensitiveContains(searchText)
+    }
 }
 
 extension [TableItem] {

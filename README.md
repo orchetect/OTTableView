@@ -1,5 +1,7 @@
 # OTTableView
 
+>  **Note**: This library is a work-in-progress and not suitable for production until first release is reached.
+
 SwiftUI implementation of [`NSTableView`](https://developer.apple.com/documentation/appkit/nstableview) with features that SwiftUI's [`Table`](https://developer.apple.com/documentation/swiftui/table) lacks:
 
 - Allows column reordering via drag-and-drop
@@ -18,8 +20,9 @@ var body: some View {
     OTTable(items, selection: $selection) { item in
         OTTableColumn(title: "Name") {
             item.name
-        } set: { row, newValue in
-            items[row].name = newValue
+        } set: { itemID, newValue in
+            guard let idx = items.first(where: { $0.id == itemID }) else { return }
+            items[idx].name = newValue
         }
         .editable(isNameEditable)
         .width(150)

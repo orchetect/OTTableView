@@ -12,7 +12,7 @@ public class OTTableView<RowValue>: NSTableView, NSTableViewDelegate, NSTableVie
 {
     public var axes: Axis.Set = [.horizontal, .vertical]
     
-    internal var contents: [RowValue] = []
+    internal var data: [RowValue] = []
     internal var selection: Set<RowValue.ID> = []
     internal var columns: [OTTableColumn<RowValue>] = []
     
@@ -28,7 +28,7 @@ public class OTTableView<RowValue>: NSTableView, NSTableViewDelegate, NSTableVie
     // MARK: NSTableViewDataSource
     
     public func numberOfRows(in tableView: NSTableView) -> Int {
-        contents.count
+        data.count
     }
     
 //    public func tableView(_ tableView: NSTableView,
@@ -38,7 +38,7 @@ public class OTTableView<RowValue>: NSTableView, NSTableViewDelegate, NSTableVie
 //        guard let idx = Int(tableColumn.identifier.rawValue) else { return nil }
 //        guard columns.indices.contains(idx) else { return nil }
 //
-//        let cellView = columns[idx].cellView(contents[row])
+//        let cellView = columns[idx].cellView(data[row])
 //
 //        return NSHostingView(rootView: AnyView(cellView))
 //    }
@@ -52,7 +52,7 @@ public class OTTableView<RowValue>: NSTableView, NSTableViewDelegate, NSTableVie
         
         return columns
             .first(matching: tableColumn)?
-            .getValue(contents[row])
+            .getValue(data[row])
     }
     
     public func tableView(
@@ -65,7 +65,7 @@ public class OTTableView<RowValue>: NSTableView, NSTableViewDelegate, NSTableVie
         
         columns
             .first(matching: tableColumn)?
-            .setValue?(row, object)
+            .setValue?(data[row].id, object)
     }
     
     // MARK: NSView Overrides

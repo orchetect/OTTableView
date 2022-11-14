@@ -16,8 +16,8 @@ public struct OTTableColumn<RowValue>
     public var isVisible: Bool = true
     internal var width: OTTableColumnWidth = .default
     
-    var getValue: (_ rowItem: RowValue) -> Any?
-    var setValue: ((_ row: Int, _ newValue: Any?) -> Void)?
+    var getValue: (_ item: RowValue) -> Any?
+    var setValue: ((_ itemID: RowValue.ID, _ newValue: Any?) -> Void)?
     
     // MARK: Introspection
     
@@ -32,8 +32,8 @@ public struct OTTableColumn<RowValue>
     public init(
         title: String,
         id: OTTableColumnID? = nil,
-        get getValue: @escaping (_ rowItem: RowValue) -> Any?,
-        set setValue: ((_ row: Int, _ newValue: Any?) -> Void)? = nil
+        get getValue: @escaping (_ item: RowValue) -> Any?,
+        set setValue: ((_ itemID: RowValue.ID, _ newValue: Any?) -> Void)? = nil
     ) {
         self.title = title
         self.id = id ?? OTTableColumnID(title)
@@ -44,8 +44,8 @@ public struct OTTableColumn<RowValue>
     public init(
         title: String,
         id: String,
-        get getValue: @escaping (_ rowItem: RowValue) -> Any?,
-        set setValue: ((_ row: Int, _ newValue: Any?) -> Void)? = nil
+        get getValue: @escaping (_ item: RowValue) -> Any?,
+        set setValue: ((_ itemID: RowValue.ID, _ newValue: Any?) -> Void)? = nil
     ) {
         self.init(
             title: title,

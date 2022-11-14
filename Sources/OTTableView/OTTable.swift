@@ -13,7 +13,7 @@ public struct OTTable<RowValue>: NSViewRepresentable
     // MARK: Public properties
     
     public var scrollAxes: Axis.Set
-    @State public var contents: [RowValue]
+    @Binding public var data: [RowValue]
     @Binding public var selection: Set<RowValue.ID>
     @Binding public var columns: [OTTableColumn<RowValue>]
     
@@ -36,7 +36,7 @@ public struct OTTable<RowValue>: NSViewRepresentable
         columns: [OTTableColumn<RowValue>]
     ) {
         self.scrollAxes = scrollAxes
-        _contents = State(initialValue: data)
+        _data = .constant(data)
         _selection = selection
         _columns = .constant(columns)
     }
@@ -148,7 +148,7 @@ public struct OTTable<RowValue>: NSViewRepresentable
         let tableView = nsView.tableView
         
         tableView.delegate = context.coordinator
-        tableView.contents = contents
+        tableView.data = data
         tableView.selection = selection
         tableView.columns = columns
         tableView.reloadData()
@@ -162,8 +162,12 @@ public struct OTTable<RowValue>: NSViewRepresentable
         
         // restore selection from state
         DispatchQueue.main.async {
+            let indices = data.indices(for: selection)
+            guard !indices.isEmpty,
+                  tableView.selectedRowIndexes != indices else { return }
+            print("selecting", indices.map { $0.description })
             tableView.selectRowIndexes(
-                contents.indices(for: selection),
+                indices,
                 byExtendingSelection: false
             )
         }
@@ -194,11 +198,10 @@ public struct OTTable<RowValue>: NSViewRepresentable
             parent.updateStatus.updatingFromCoordinator = true
             defer { parent.updateStatus.updatingFromCoordinator = false }
             
-            guard !parent.contents.isEmpty else { return }
+            guard !parent.data.isEmpty else { return }
             
             let selectedIndices = tableView.selectedRowIndexes
             
-            // early return
             if selectedIndices.isEmpty {
                 parent.updateSelection(from: .init())
             } else {
@@ -223,7 +226,7 @@ public struct OTTable<RowValue>: NSViewRepresentable
     // MARK: Helpers
     
     public func updateSelection(from indices: IndexSet) {
-        let indices = contents.idsForIndices(indices)
+        let indices = data.idsForIndices(indices)
         selection = indices
     }
 }
