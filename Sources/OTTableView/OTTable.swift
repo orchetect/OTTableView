@@ -102,7 +102,7 @@ public struct OTTable<RowValue>: NSViewRepresentable
             tv.addTableColumn(col)
         }
         
-        // bahavior
+        // behavior
         tv.allowsMultipleSelection = true
         
         // layout
