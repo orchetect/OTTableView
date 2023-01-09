@@ -1,6 +1,6 @@
 # OTTableView
 
-![Platforms - macOS 10.15+](https://img.shields.io/badge/platforms-macOS%2010.15+-lightgrey.svg?style=flat) ![Swift 5.5-5.7](https://img.shields.io/badge/Swift-5.5–5.7-orange.svg?style=flat) [![Xcode 14](https://img.shields.io/badge/Xcode-14-blue.svg?style=flat)](https://developer.apple.com/swift) [![License: MIT](http://img.shields.io/badge/license-MIT-lightgrey.svg?style=flat)](https://github.com/orchetect/OSCKit/blob/main/LICENSE)
+![Platforms - macOS 10.15+](https://img.shields.io/badge/platforms-macOS%2010.15+-lightgrey.svg?style=flat) ![Swift 5.5-5.7](https://img.shields.io/badge/Swift-5.5–5.7-orange.svg?style=flat) [![Xcode 14](https://img.shields.io/badge/Xcode-14-blue.svg?style=flat)](https://developer.apple.com/swift) [![License: MIT](http://img.shields.io/badge/license-MIT-lightgrey.svg?style=flat)](https://github.com/orchetect/OTTableView/blob/main/LICENSE)
 
 Pseudo-declarative [`NSTableView`](https://developer.apple.com/documentation/appkit/nstableview) wrapper for SwiftUI.
 
@@ -67,7 +67,7 @@ Licensed under the MIT license. See [LICENSE](LICENSE) for details.
 
 ## Sponsoring
 
-If you enjoy using OSCKit and want to contribute to open-source financially, GitHub sponsorship is much appreciated. Feedback and code contributions are also welcome.
+If you enjoy using OTTableView and want to contribute to open-source financially, GitHub sponsorship is much appreciated. Feedback and code contributions are also welcome.
 
 ## Roadmap & Contributions
 
